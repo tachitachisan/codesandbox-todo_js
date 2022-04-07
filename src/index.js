@@ -1,14 +1,15 @@
 import "./styles.css";
 
+//TODO追加ボタン押下時に動く関数
 const onClickAdd = () => {
   //テキストボックスの値を取得し、初期化する
   const inputText = document.getElementById("add-text").value;
   document.getElementById("add-text").value = "";
-
+  //入力した文字列を新規TODOとして未完了リストに追加
   createIncompleteList(inputText);
 };
 
-//未完了リストから指定の要素を削除
+//未完了リストから指定の要素を削除する関数
 const deleteFromIncompleteList = (target) => {
   document.getElementById("incomplete-list").removeChild(target);
 };
@@ -18,7 +19,6 @@ const createIncompleteList = (text) => {
   //div作成
   const div = document.createElement("div");
   div.className = "list-row";
-
   //liタグ作成
   const li = document.createElement("li");
   li.innerText = text;
@@ -26,6 +26,7 @@ const createIncompleteList = (text) => {
   //button(完了)タグ生成
   const completeButton = document.createElement("button");
   completeButton.innerText = "完了";
+  //完了ボタン押下時のイベント処理を定義
   completeButton.addEventListener("click", () => {
     //押された完了ボタンの親タグ（div）を未完了リストから削除
     deleteFromIncompleteList(completeButton.parentNode);
@@ -33,7 +34,7 @@ const createIncompleteList = (text) => {
     const addTarget = completeButton.parentNode;
     //TODO内容テキストを取得
     const text = addTarget.firstElementChild.innerText;
-    //div以下を初期化
+    //div以下を初期化（divタグを使いまわすため中身を削除している）
     addTarget.textContent = null;
     //liタグ作成
     const li = document.createElement("li");
@@ -41,10 +42,10 @@ const createIncompleteList = (text) => {
     //button(戻す)タグ生成
     const backButton = document.createElement("button");
     backButton.innerText = "戻す";
+    //戻すボタン押下時のイベント処理を定義
     backButton.addEventListener("click", () => {
       const deleteTarget = backButton.parentNode;
       document.getElementById("complete-list").removeChild(deleteTarget);
-
       //テキストを取得
       const text = deleteTarget.firstElementChild.innerText;
       createIncompleteList(text);
@@ -71,10 +72,11 @@ const createIncompleteList = (text) => {
   div.appendChild(completeButton);
   div.appendChild(deleteButton);
 
-  //未完了リストに追加
+  //作成した新規TODOを未完了リストに追加
   document.getElementById("incomplete-list").appendChild(div);
 };
 
+//TODO追加ボタンに押下時に動く関数を設定
 document
   .getElementById("add-button")
   .addEventListener("click", () => onClickAdd());
